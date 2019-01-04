@@ -26,6 +26,7 @@ class ScanViewSpider(scrapy.Spider):
         content_list = response.xpath(".//*[@class='viewpointListWrap contentWrap perspective']/ul/li")
         for content in content_list:
             url = content.xpath(".//a/@href").extract()
+            logging.info('....new..url', url)
             if len(url) > 0:
                 url = url[0]
             title = content.xpath(".//a/p[@class='perspectiveTitle']/text()").extract()
