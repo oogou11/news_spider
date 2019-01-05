@@ -1,9 +1,11 @@
 import redis
-
+from utils.cached import RedisChannelInit
 # Default values.
 REDIS_URL = None
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
+PUBLISH_CHANNEL_DB = 1
+PUBLISH_CHANNEL = 'news_spider.job.channel'
 
 FILTER_URL = None
 FILTER_HOST = 'localhost'

@@ -1,8 +1,9 @@
-#coding:utf-8
 import pymongo
+from utils.cached import PublishMessageToChannel
 
 class MongoPipeline(object):
     collection_name = 'scrapy_items'
+
     def __init__(self, mongo_uri, mongo_db):
         self.mongo_uri = mongo_uri
         self.mongo_db = mongo_db
@@ -23,4 +24,5 @@ class MongoPipeline(object):
 
     def process_item(self, item, spider):
         self.db[self.collection_name].insert(dict(item))
+        PublishMessageToChannel().publish_message(item['title'])
         return item

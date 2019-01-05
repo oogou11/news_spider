@@ -67,11 +67,9 @@ SCHEDULER = "news_spider.scrapy_redis.scheduler.Scheduler"
 SCHEDULER_QUEUE_CLASS = 'news_spider.scrapy_redis.queue.SpiderPriorityQueue'
 SCHEDULER_PERSIST = True
 
-# 订阅管道
-SUBSCRIBE_CHANNEL = "news_spider.subscribe.channel"
-
 # 消息结果管道
-PUBLISH_CHANNEL = "news_spider.publish.channel"
+PUBLISH_CHANNEL = "news_spider.job.channel"
+PUBLISH_CHANNEL_DB = 1
 
 # 使用scrapy_redis的去重方式使用scrapy_redis的调度器
 REDIS_HOST = '127.0.0.1'
