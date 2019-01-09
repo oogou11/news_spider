@@ -1,8 +1,8 @@
 import pymongo
-from utils.cached import PublishMessageToChannel
 
 class MongoPipeline(object):
     collection_name = 'scrapy_items'
+    collection_message = 'message'
 
     def __init__(self, mongo_uri, mongo_db):
         self.mongo_uri = mongo_uri
@@ -23,6 +23,7 @@ class MongoPipeline(object):
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[self.collection_name].insert(dict(item))
-        PublishMessageToChannel().publish_message(item['title'])
+        _id = self.db[self.collection_name].insert(dict(item))
+        message_data = {'title': item['title'], 'message_id': str(_id)}
+        self.db[self.collection_message].insert(message_data)
         return item
