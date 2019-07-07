@@ -20,3 +20,4 @@ class NewsSpiderItem(scrapy.Item):
     content = scrapy.Field()
     source = scrapy.Field()
     create_time = scrapy.Field()
+    tags = scrapy.Field()

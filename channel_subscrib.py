@@ -7,5 +7,4 @@ channel = r.pubsub()
 channel.subscribe('news_spider.job.channel')
 while True:
     data = channel.parse_response()
-    mess = channel.get_message()
-    print(data, mess)
+    mess = channel.get_message() 

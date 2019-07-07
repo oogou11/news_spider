@@ -35,5 +35,5 @@ class PublishMessageToChannel:
 
     def publish_message(self, message):
         channel_name = self._config.get('PUBLISH_CHANNEL', 'news_spider.job.channel')
-        channel = self._redis_conn.pubsub()
+        self._redis_conn.pubsub()
         self._redis_conn.publish(channel_name, message)

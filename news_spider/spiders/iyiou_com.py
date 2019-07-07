@@ -37,9 +37,7 @@ class ScanViewSpider(scrapy.Spider):
             yield scrapy.Request('https://www.iyiou.com/intelligence/insights-{}/'.format(category), self.parse)
 
 
-    def parse(self, response):
-        print('..........request_url...............')
-        print(response.request.url)
+    def parse(self, response): 
         array_split_url = response.request.url.split('-')
         category = ''
         if len(array_split_url) > 1:
@@ -56,10 +54,10 @@ class ScanViewSpider(scrapy.Spider):
             title = content.xpath(".//a/p[@class='perspectiveTitle']/text()").extract()
             if len(title) > 0:
                 title = title[0]
-            time = content.xpath(".//a/p[@class='researchInfo']/span[@class='time']/text()").extract()
+            time = content.xpath(".//p[@class='researchInfo']/span[@class='time']/text()").extract()
             if len(time) > 0:
                 time = time[0]
-            author = content.xpath(".//a/p[@class='researchInfo']/span[@class='author']/text()").extract()
+            author = content.xpath(".//*[@class='researchInfo-author']/span[@class='author']/text()").extract()
             if len(author) > 0:
                 author = author[0]
             item = NewsSpiderItem(url=url, title=title, time=time, author=author,
@@ -75,12 +73,15 @@ class ScanViewSpider(scrapy.Spider):
     def parse_body(self, response):
         item = response.meta['item']
         body = response.xpath(".//*[@class='viewpointWrap']")
-        review = body.xpath(".//div[@id='post_brief']/text()").extract()
+        tags = body.xpath(".//*[@id='post_industry']/a[@class='post_industry_item']/text()").extract() # 标签 
+        review = body.xpath(".//div[@id='post_brief']/text()").extract() 
         if len(review) > 0:
             item['review'] = review[0]
         thumb_url = body.xpath(".//div[@id='post_thumbnail']/img/@src").extract()
         if len(thumb_url) > 0:
             item['thumb_url'] = thumb_url[0]
+        if len(tags) > 0:
+            item['tags'] = tags
         origin_html = body.xpath(".//div[@id='post_description']/p").extract()
         content = list()
         cleaner = clean.Cleaner(safe_attrs_only=True, safe_attrs=self.__safe_attrs, kill_tags=self.__kill_tags)
