@@ -24,7 +24,6 @@ class MongoPipeline(object):
 
     def process_item(self, item, spider):
         dict_item = dict(item)
-        self.db[self.collection_name].insert(dict_item)
-        print('....title...',dict_item.get('title'))
+        self.db[self.collection_name].insert(dict_item) 
         PublishMessageToChannel().publish_message(dict_item.get('title'))
         return item

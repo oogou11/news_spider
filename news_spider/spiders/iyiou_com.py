@@ -20,6 +20,7 @@ project_items = {
     'manufacturing': '新制造',
     'zonghe': '综合'
 }
+
 '''
     亿欧
 '''
@@ -36,8 +37,7 @@ class ScanViewSpider(scrapy.Spider):
         for category in self.categories:
             yield scrapy.Request('https://www.iyiou.com/intelligence/insights-{}/'.format(category), self.parse)
 
-
-    def parse(self, response): 
+    def parse(self, response):  
         array_split_url = response.request.url.split('-')
         category = ''
         if len(array_split_url) > 1:
